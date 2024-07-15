@@ -20,7 +20,7 @@
 		CardTitle
 	} from '$lib/components/ui/card';
 	import Message from '$lib/components/ui/Message.svelte';
-	import DataTable from '../data-table.svelte';
+	import DataTable from '$lib/components/data-table/data-table.svelte';
 	import * as Select from '$lib/components/ui/select';
 
 	let users: [] = $state([]);
