@@ -19,6 +19,7 @@
 	} from '$lib/components/ui/card';
 	import * as Alert from '$lib/components/ui/alert/index.js';
 	import Message from '$lib/components/ui/Message.svelte';
+	import * as Avatar from '$lib/components/ui/avatar';
 
 	let workspaces = $state([]);
 	let selectedWorkspace = $state();
@@ -135,18 +136,35 @@
 			}
 		}, 5000);
 	}
+	
+	function generateAltTag(text: string): string {
+		const words = text.trim().split(/\s+/); // Split the text into words based on whitespace
+		// If there is only one word, return the first two letters of that word otherwise return the first letter of the first two word
+		if (words.length === 1) {
+			return words[0].substring(0, 2);
+		} else {
+			return words[0][0] + words[1][0];
+		}
+	}
 </script>
 
 <div class="container mx-auto p-4">
 	<h1 class="mb-4 text-2xl font-bold">Workspaces</h1>
-
 	<div>
 		<div class="flex flex-wrap gap-4">
 			{#each workspaces as workspace}
-				<a href="/workspaces/{workspace.id}" class="rounded-lg border-4 p-1 hover:p-0 hover:border-8 transition-all border-secondary bg-card text-card-foreground shadow-sm min-w-64 max-w-96 grow hover:cursor-pointer active:bg-slate-900">
-					<CardHeader>
-						<CardTitle>{workspace.name}</CardTitle>
-						<CardDescription>{workspace.description}</CardDescription>
+				<a
+					href="/workspaces/{workspace.id}"
+					class="min-w-64 max-w-96 grow rounded-lg border-4 border-secondary bg-card p-1 text-card-foreground shadow-sm transition-all hover:cursor-pointer hover:border-8 hover:p-0 active:bg-slate-900"
+				>
+					<CardHeader class="flex flex-row">
+						<Avatar.Root>
+							<Avatar.Fallback>{generateAltTag(workspace.name)}</Avatar.Fallback>
+						</Avatar.Root>
+						<div class="ml-4">
+							<CardTitle class="shrink">{workspace.name}</CardTitle>
+							<CardDescription>{workspace.description}</CardDescription>
+						</div>
 					</CardHeader>
 					<CardContent>
 						<p>Total Users: {workspace._count.users}</p>

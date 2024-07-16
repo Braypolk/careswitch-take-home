@@ -27,9 +27,9 @@
 	<ul class="space-y-2">
 		<li>
 			<Button
-				variant={$page.url.pathname === '/' ? 'default' : 'ghost'}
+				variant={$page.url.pathname === '/users' ? 'default' : 'ghost'}
 				class="w-full justify-start"
-				href="/"
+				href="/users"
 			>
 				Users
 			</Button>
