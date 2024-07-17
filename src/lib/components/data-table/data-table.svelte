@@ -164,13 +164,7 @@
 						<Table.Row
 							{...rowAttrs}
 							data-state={'selected'}
-							on:click={(e) => {
-								if (selectedUserId === row.dataId) {
-									selectedUserId = '';
-								} else {
-									e.target.tagName === 'TD' && (selectedUserId = row.dataId);
-								}
-							}}
+							on:click={(e) => e.target.tagName === 'TD' && (selectedUserId = row.dataId)}
 							class="cursor-pointer hover:!bg-muted-foreground"
 						>
 							{#each row.cells as cell (cell.id)}
