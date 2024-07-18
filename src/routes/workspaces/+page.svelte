@@ -1,24 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { Button } from '$lib/components/ui/button';
-	import { Checkbox } from '$lib/components/ui/checkbox';
-	import {
-		Table,
-		TableBody,
-		TableCell,
-		TableHead,
-		TableHeader,
-		TableRow
-	} from '$lib/components/ui/table';
-	import {
-		Card,
-		CardContent,
-		CardDescription,
-		CardHeader,
-		CardTitle
-	} from '$lib/components/ui/card';
-	import * as Alert from '$lib/components/ui/alert/index.js';
-	import Message from '$lib/components/ui/Message.svelte';
+	import * as Card from '$lib/components/ui/card';
 	import * as Avatar from '$lib/components/ui/avatar';
 
 	let workspaces = $state([]);
@@ -136,16 +118,6 @@
 			}
 		}, 5000);
 	}
-	
-	function generateAltTag(text: string): string {
-		const words = text.trim().split(/\s+/); // Split the text into words based on whitespace
-		// If there is only one word, return the first two letters of that word otherwise return the first letter of the first two word
-		if (words.length === 1) {
-			return words[0].substring(0, 2);
-		} else {
-			return words[0][0] + words[1][0];
-		}
-	}
 </script>
 
 <div class="container mx-auto p-4">
@@ -157,18 +129,18 @@
 					href="/workspaces/{workspace.id}"
 					class="min-w-64 max-w-96 grow rounded-lg border-4 border-secondary bg-card p-1 text-card-foreground shadow-sm transition-all hover:cursor-pointer hover:border-8 hover:p-0 active:bg-slate-900"
 				>
-					<CardHeader class="flex flex-row">
+					<Card.Header class="flex flex-row">
 						<Avatar.Root>
-							<Avatar.Fallback>{generateAltTag(workspace.name)}</Avatar.Fallback>
+							<Avatar.Fallback>{workspace.tag}</Avatar.Fallback>
 						</Avatar.Root>
 						<div class="ml-4">
-							<CardTitle class="shrink">{workspace.name}</CardTitle>
-							<CardDescription>{workspace.description}</CardDescription>
+							<Card.Title class="shrink">{workspace.name}</Card.Title>
+							<Card.Description>{workspace.description}</Card.Description>
 						</div>
-					</CardHeader>
-					<CardContent>
+					</Card.Header>
+					<Card.Content>
 						<p>Total Users: {workspace._count.users}</p>
-					</CardContent>
+					</Card.Content>
 				</a>
 			{/each}
 		</div>

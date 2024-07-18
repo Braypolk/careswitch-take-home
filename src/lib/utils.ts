@@ -54,3 +54,19 @@ export const flyAndScale = (
 		easing: cubicOut
 	};
 };
+
+export async function dbApiCall(url: string): Promise<[] | Error> {
+	try {
+		const res = await fetch(url);
+		const resJson: [] = await res.json();
+		if (resJson === undefined || resJson.length === 0) {
+			throw new Error('Not found');
+		}
+			return resJson;
+	} catch (error) {
+		if (error instanceof Error) {
+			return error;
+		}
+		return new Error("An unknown error occurred");
+	}
+}

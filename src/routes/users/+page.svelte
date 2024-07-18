@@ -118,7 +118,7 @@
 						<p class="text-muted-foreground">Job Title:</p>
 						<p class="pb-6">{selectedUser.jobTitle}</p>
 						<p class="text-muted-foreground">Vacation Days:</p>
-						<p class="pb-6">{selectedUser.vactionDays}</p>
+						<p class="pb-6">{selectedUser.vacationDays}</p>
 						<h3 class="text-2xl font-semibold text-muted-foreground">Workspaces:</h3>
 						<ul>
 							{#each selectedUser.workspaces as workspace}

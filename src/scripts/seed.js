@@ -21,7 +21,7 @@ async function createWorkspaces() {
 	return [workspace1, workspace2];
 }
 
-function generateAltTag(text) {
+function generateTag(text) {
 	const words = text.trim().split(/\s+/); // Split the text into words based on whitespace
 	// If there is only one word, return the first two letters of that word otherwise return the first letter of the first two word
 	if (words.length === 1) {
@@ -38,11 +38,11 @@ async function createUsers() {
 	const jobTitles = ['Manager', 'assistant to the regional manager', 'Sales', 'Sales', 'Customer service'];
 
 	const users = [
-		{ firstName: 'Dwight', lastName: 'Schrute', jobTitle: 'Assistant to the regional manager', vactionDays: 1 },
-		{ firstName: 'Michael', lastName: 'Scott', jobTitle: 'Regional Manager', vactionDays: 20 },
-		{ firstName: 'Jim', lastName: 'Halpert', jobTitle: 'Sales', vactionDays: 29 },
-		{ firstName: 'Pam', lastName: 'Beasley', jobTitle: 'Receptionist', vactionDays: 20 },
-		{ firstName: 'Kelly', lastName: 'Kapoor', jobTitle: 'Customer Service', vactionDays: 15 },
+		{ firstName: 'Dwight', lastName: 'Schrute', jobTitle: 'Assistant to the regional manager', vacationDays: 1 },
+		{ firstName: 'Michael', lastName: 'Scott', jobTitle: 'Regional Manager', vacationDays: 20 },
+		{ firstName: 'Jim', lastName: 'Halpert', jobTitle: 'Sales', vacationDays: 29 },
+		{ firstName: 'Pam', lastName: 'Beasley', jobTitle: 'Receptionist', vacationDays: 20 },
+		{ firstName: 'Kelly', lastName: 'Kapoor', jobTitle: 'Customer Service', vacationDays: 15 },
 	]
 
 	for (let i = 0; i < users.length; i++) {
@@ -50,11 +50,11 @@ async function createUsers() {
 			data: {
 				firstName: users[i].firstName,
 				lastName: users[i].lastName,
-				tag: generateAltTag(users[i].firstName + ' ' + users[i].lastName),
+				tag: generateTag(users[i].firstName + ' ' + users[i].lastName),
 				email: `${users[i].firstName.toLowerCase()}.${users[i].lastName.toLowerCase()}@example.com`,
 				startDate: new Date(Date.now() - Math.floor(Math.random() * (365 * 24 * 60 * 60 * 1000))),
 				jobTitle: users[i].jobTitle,
-				vactionDays: users[i].vactionDays,
+				vacationDays: users[i].vacationDays,
 			},
 		});
 		createdUsers.push(createdUser);

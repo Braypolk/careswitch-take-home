@@ -15,7 +15,7 @@ model User {
   email String
   startDate DateTime
   jobTitle String
-  vactionDays Int?
+  vacationDays Int?
   workspaces WorkspacesOnUsers[]
 }
 

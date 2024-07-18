@@ -26,7 +26,6 @@ export const GET: RequestHandler = async () => {
       ...user,
       workspaces: user.workspaces.map(ws => ws.workspace)
     }));
-console.log(formattedUsers);
 
     return json(formattedUsers);
   } catch (error) {
