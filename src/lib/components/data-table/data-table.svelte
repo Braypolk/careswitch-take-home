@@ -4,7 +4,8 @@
 		addPagination,
 		addSortBy,
 		addTableFilter,
-		addSelectedRows
+		addSelectedRows,
+		addHiddenColumns
 	} from 'svelte-headless-table/plugins';
 	import ArrowUpDown from 'lucide-svelte/icons/arrow-up-down';
 	import ArrowUp from 'lucide-svelte/icons/arrow-up';
@@ -14,30 +15,26 @@
 	import { Button } from '$lib/components/ui/button';
 	import * as Tooltip from '$lib/components/ui/tooltip';
 	import * as Select from '$lib/components/ui/select';
-	// import {
-	// 	Select,
-	// 	SelectContent,
-	// 	SelectGroup,
-	// 	SelectItem,
-	// 	SelectTrigger,
-	// 	SelectValue
-	// } from '$lib/components/ui/select';
 
 	import DataTableActions from '$lib/components/data-table/data-table-actions.svelte';
 	import DataTableCheckbox from '$lib/components/data-table/data-table-checkbox.svelte';
 
 	let {
 		data,
+		selectable = false,
+		hover = true,
 		filterValueProp,
 		selectedUsers = $bindable(),
 		selectedUserId = $bindable()
 	} = $props<{
 		data: [];
+		selectable?: boolean;
+		hover?: boolean;
 		filterValueProp: string;
-		selectedUsers: String[];
-		selectedUserId: string;
+		selectedUsers?: String[];
+		selectedUserId?: string;
 	}>();
-
+	
 	const sizes = [3, 5, 10, 25];
 	let selected = $state({ value: 3, label: '3' });
 
@@ -47,8 +44,10 @@
 		filter: addTableFilter({
 			fn: ({ filterValue, value }) => value.toLowerCase().includes(filterValue.toLowerCase())
 		}),
-		select: addSelectedRows()
+		select: addSelectedRows(),
+		hide: addHiddenColumns()
 	});
+
 	const columns = table.createColumns([
 		table.column({
 			accessor: 'id',
@@ -91,10 +90,14 @@
 			}
 		}),
 		table.column({
-			accessor: ({ id }) => id,
+			accessor: ({ id, email }) => ({id, email}),
 			header: '',
+			id: 'actions',
+			filter: {
+				exclude: true
+			},
 			cell: ({ value }) => {
-				return createRender(DataTableActions, { id: value });
+				return createRender(DataTableActions, { id: value.id, email: value.email });
 			}
 		})
 	]);
@@ -105,16 +108,26 @@
 	const { filterValue } = pluginStates.filter;
 	const { selectedDataIds } = pluginStates.select;
 	const { sortKeys } = pluginStates.sort;
+	const { hiddenColumnIds } = pluginStates.hide;
+
 	$sortKeys = [
 		{
 			id: 'firstName',
 			order: 'asc'
 		}
 	];
-
-	$effect(() => ($pageSize = selected.value));
-	$effect(() => (selectedUsers = Object.keys($selectedDataIds)));
-	$effect(() => ($filterValue = filterValueProp));
+	$effect(() => {
+		$hiddenColumnIds = [selectable ? '' : 'id'];
+	});
+	$effect(() => {
+		$pageSize = selected.value;
+	});
+	$effect(() => {
+		selectedUsers = Object.keys($selectedDataIds);
+	});
+	$effect(() => {
+		$filterValue = filterValueProp;
+	});
 </script>
 
 <div>
@@ -165,7 +178,7 @@
 							{...rowAttrs}
 							data-state={'selected'}
 							on:click={(e) => e.target.tagName === 'TD' && (selectedUserId = row.dataId)}
-							class="cursor-pointer hover:!bg-muted-foreground"
+							class={ hover && `${hover && 'cursor-pointer hover:!bg-muted-foreground'} ${selectedUserId === row.dataId && '!bg-muted-foreground'} `} 
 						>
 							{#each row.cells as cell (cell.id)}
 								<Subscribe attrs={cell.attrs()} let:attrs>

@@ -19,7 +19,7 @@
 >
 	{#if navActive}
 		<div class="flex">
-			<Button variant="ghost" class="mb-5 cursor-pointer text-2xl font-bold">Careswitch</Button>
+			<Button href="/" variant="ghost" class="mb-5 cursor-pointer text-2xl font-bold">Careswitch</Button>
 			<Button
 				on:click={() => (keepOpen = !keepOpen)}
 				variant="secondary"

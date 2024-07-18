@@ -3,7 +3,7 @@
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import { Button } from '$lib/components/ui/button';
 
-	export let id: string;
+	let { email, id }: { email: string; id: string } = $props();
 </script>
 
 <DropdownMenu.Root>
@@ -15,13 +15,11 @@
 	</DropdownMenu.Trigger>
 	<DropdownMenu.Content>
 		<DropdownMenu.Group>
-			<DropdownMenu.Item on:click={() => navigator.clipboard.writeText(id)}>
-				Copy ID
+			<DropdownMenu.Item on:click={() => navigator.clipboard.writeText(email)}>
+				Copy Email
 			</DropdownMenu.Item>
 		</DropdownMenu.Group>
-		<DropdownMenu.Item>View User Details</DropdownMenu.Item>
-		<DropdownMenu.Item>Edit User Details</DropdownMenu.Item>
-		<DropdownMenu.Separator />
-		<DropdownMenu.Item class="text-red-600 hover:!bg-red-500">Delete User</DropdownMenu.Item>
+		<DropdownMenu.Item href={`/users/${id}`}>View User Details</DropdownMenu.Item>
+		<DropdownMenu.Item href={`/users/${id}?edit=true`}>Edit User Details</DropdownMenu.Item>
 	</DropdownMenu.Content>
 </DropdownMenu.Root>
