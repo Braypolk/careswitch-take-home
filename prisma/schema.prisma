@@ -9,5 +9,29 @@ generator client {
 
 model User {
   id   String @id @default(cuid())
+  firstName String
+  lastName String
+  tag String
+  email String
+  startDate DateTime
+  jobTitle String
+  vacationDays Int?
+  workspaces WorkspacesOnUsers[]
+}
+
+model Workspace {
+  id   String @id @default(cuid())
   name String
+  tag String
+  description String?
+  users WorkspacesOnUsers[]
+}
+
+model WorkspacesOnUsers {
+  user       User     @relation(fields: [userId], references: [id])
+  userId     String
+  workspace  Workspace @relation(fields: [workspaceId], references: [id])
+  workspaceId String
+
+  @@id([userId, workspaceId])
 }

@@ -54,3 +54,52 @@ export const flyAndScale = (
 		easing: cubicOut
 	};
 };
+
+export async function dbApiCall(url: string, callType = '', body?: object) {
+	try {
+		let res;
+		
+		if (callType === 'POST') {
+			res = await fetch(url, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(body)
+			});
+		} else if (callType === 'DELETE') {
+			if ( body === undefined ) {
+				res = await fetch(url, {
+					method: 'DELETE'
+				});
+			} else {
+				res = await fetch(url, {
+					method: 'DELETE',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify(body)
+				});
+			}
+		} else {
+			res = await fetch(url);
+		}
+		
+		const resJson = await res.json();
+		if (resJson === undefined || resJson.length === 0) {
+			throw new Error('Not found');
+		}
+		return resJson;
+	} catch (error) {
+		if (error instanceof Error) {
+			return error;
+		}
+		return new Error('An unknown error occurred');
+	}
+}
+
+export function generateTag(text: string) {
+	const words = text.trim().split(/\s+/); // Split the text into words based on whitespace
+	// If there is only one word, return the first two letters of that word otherwise return the first letter of the first two word
+	if (words.length === 1) {
+		return words[0].substring(0, 2);
+	} else {
+		return words[0][0] + words[1][0];
+	}
+}
