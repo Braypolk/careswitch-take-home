@@ -23,30 +23,15 @@ export const GET: RequestHandler = async ({ params }) => {
 	}
 };
 
-export const PUT: RequestHandler = async ({ params, request }) => {
-	try {
-		const { name, description } = await request.json();
-		if (!name) throw error(400, 'Name is required');
-
-		const workspace = await prisma.workspace.update({
-			where: { id: params.id },
-			data: { name, description }
-		});
-		return json(workspace);
-	} catch (e) {
-		// handle things like json parsing errors
-		if (e instanceof Error) {
-			throw error(400, e.message);
-		}
-		// throw prisma error
-		handlePrismaError(e);
-	}
-};
-
 export const DELETE: RequestHandler = async ({ params }) => {
 	try {
-		await prisma.workspace.delete({
-			where: { id: params.id }
+		const removeUsersRes = await prisma.workspacesOnUsers.deleteMany({
+			where: {
+			  workspaceId: params.workspaceId
+			}
+		  });
+		const res = await prisma.workspace.delete({
+			where: { id: params.workspaceId }
 		});
 		return json({ success: true });
 	} catch (e) {

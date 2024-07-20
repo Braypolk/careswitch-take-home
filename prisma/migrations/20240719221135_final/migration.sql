@@ -3,16 +3,18 @@ CREATE TABLE "User" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "firstName" TEXT NOT NULL,
     "lastName" TEXT NOT NULL,
+    "tag" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "startDate" DATETIME NOT NULL,
     "jobTitle" TEXT NOT NULL,
-    "vactionDays" INTEGER
+    "vacationDays" INTEGER
 );
 
 -- CreateTable
 CREATE TABLE "Workspace" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "name" TEXT NOT NULL,
+    "tag" TEXT NOT NULL,
     "description" TEXT
 );
 

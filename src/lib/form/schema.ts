@@ -5,7 +5,7 @@ export const formSchema = z.object({
 	lastName: z.string().refine((v) => v, { message: "A last name is required." }),
 	startDate: z.date().refine((v) => v, { message: "A start date is required." }),
 	jobTitle: z.string().refine((v) => v, { message: "A job title is required." }),
-	vacationDays: z.number().refine((v) => v, { message: "A number is required." }),
+	vacationDays: z.number().default(1).refine((v) => v, { message: "A number is required." }),
 });
 
 export const workspaceFormSchema = z.object({

@@ -5,7 +5,6 @@
 	import { Input } from '$lib/components/ui/input';
 	import { Skeleton } from '$lib/components/ui/skeleton/index.js';
 	import * as Card from '$lib/components/ui/card';
-	import * as Select from '$lib/components/ui/select';
 	import * as Collapsible from '$lib/components/ui/collapsible';
 	import * as Avatar from '$lib/components/ui/avatar';
 	import DataTable from '$lib/components/data-table/data-table.svelte';
@@ -18,7 +17,6 @@
 
 	let users: [] | Error = $state([]);
 	let workspaces: [] | Error = $state([]);
-	let selectedWorkspace = $state('');
 	let selectedUserId = $state('');
 	let filterValueProp = $state('');
 	let infoOpen = $state(true);

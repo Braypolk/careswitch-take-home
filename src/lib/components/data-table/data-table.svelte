@@ -18,9 +18,10 @@
 
 	import DataTableActions from '$lib/components/data-table/data-table-actions.svelte';
 	import DataTableCheckbox from '$lib/components/data-table/data-table-checkbox.svelte';
+	import type { User } from '@prisma/client';
 
 	let {
-		data,
+		data = [],
 		selectable = false,
 		hover = true,
 		filterValueProp,
@@ -31,10 +32,10 @@
 		selectable?: boolean;
 		hover?: boolean;
 		filterValueProp: string;
-		selectedUsers?: String[];
+		selectedUsers?: string[];
 		selectedUserId?: string;
 	}>();
-	
+
 	const sizes = [3, 5, 10, 25];
 	let selected = $state({ value: 3, label: '3' });
 
@@ -90,7 +91,7 @@
 			}
 		}),
 		table.column({
-			accessor: ({ id, email }) => ({id, email}),
+			accessor: ({ id, email }) => ({ id, email }),
 			header: '',
 			id: 'actions',
 			filter: {
@@ -102,13 +103,13 @@
 		})
 	]);
 
-	const { headerRows, pageRows, tableAttrs, tableBodyAttrs, pluginStates, rows } =
+	const { flatColumns, headerRows, pageRows, tableAttrs, tableBodyAttrs, pluginStates, rows } =
 		table.createViewModel(columns, { rowDataId: (item) => item.id });
 	const { hasNextPage, hasPreviousPage, pageIndex, pageSize } = pluginStates.page;
 	const { filterValue } = pluginStates.filter;
 	const { selectedDataIds } = pluginStates.select;
 	const { sortKeys } = pluginStates.sort;
-	const { hiddenColumnIds } = pluginStates.hide;
+	const { hiddenColumnIds } = pluginStates.hide;		
 
 	$sortKeys = [
 		{
@@ -116,6 +117,9 @@
 			order: 'asc'
 		}
 	];
+
+	selectedUserId = $pageRows[0].dataId;
+
 	$effect(() => {
 		$hiddenColumnIds = [selectable ? '' : 'id'];
 	});
@@ -178,7 +182,8 @@
 							{...rowAttrs}
 							data-state={'selected'}
 							on:click={(e) => e.target.tagName === 'TD' && (selectedUserId = row.dataId)}
-							class={ hover && `${hover && 'cursor-pointer hover:!bg-muted-foreground'} ${selectedUserId === row.dataId && '!bg-muted-foreground'} `} 
+							class={hover &&
+								`${hover && 'cursor-pointer hover:!bg-muted-foreground'} ${selectedUserId === row.dataId && '!bg-muted-foreground'} `}
 						>
 							{#each row.cells as cell (cell.id)}
 								<Subscribe attrs={cell.attrs()} let:attrs>

@@ -22,16 +22,18 @@ export const GET: RequestHandler = async ({ params }) => {
 export const POST: RequestHandler = async ({ params, request }) => {
     try {
         if (!params.workspaceId) throw error(400, 'Workspace ID is required');
-        const { userId } = await request.json();
-        if (!userId) throw error(400, 'User ID is required');
-        
-        const workspaceUser = await prisma.workspacesOnUsers.create({
-            data: {
-                userId: userId,
-                workspaceId: params.workspaceId
-            }
-        });
-        return json(workspaceUser, { status: 201 });
+        const { userIds } = await request.json();
+        if (!userIds) throw error(400, 'User ID is required');
+
+        const result = await prisma.workspacesOnUsers.createMany({
+            data: userIds.map(userId => ({
+              userId: userId,
+              workspaceId: params.workspaceId
+            }))
+          });
+          console.log(result);
+          
+        return json(result, { status: 201 });
     } catch (e) {
         // handle things like json parsing errors
         if (e instanceof Error) {
@@ -40,4 +42,27 @@ export const POST: RequestHandler = async ({ params, request }) => {
         // throw prisma error
         handlePrismaError(e);
     }
+};
+
+export const DELETE: RequestHandler = async ({ params, request }) => {
+	try {
+        const { userIds } = await request.json();
+
+		const deletedRows = await prisma.workspacesOnUsers.deleteMany({
+            where: {
+                userId: {
+                    in: userIds
+                },
+                workspaceId: params.workspaceId
+            }
+        });
+		return json(deletedRows);
+	} catch (e) {
+		// handle things like json parsing errors
+		if (e instanceof Error) {
+			throw error(400, e.message);
+		}
+		// throw prisma error
+		handlePrismaError(e);
+	}
 };

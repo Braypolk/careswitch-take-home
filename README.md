@@ -1,43 +1,54 @@
-# Careswitch Take-Home Assignment
+# Careswitch User Management Interface
 
-Your assignment is to build a simple user management interface using SvelteKit, Prisma, Shadcn, and Tailwind that displays a list of users and supports navigating to individual profiles for viewing and editing. Follow the quickstart guide below to get started and learn more about the requirements.
+## Overview
 
-## Prerequisites
+This repository is for the Careswitch User Management Interface coding assignment, a simple web application designed for managing users and their associations with workspaces. The project utilizes Sveltekit, Tailwind, Shadcn-svelte, Zod, Superforms, and Prisma. All forms are build with Superforms and Zod.
 
-- [Node.js (LTS)](https://nodejs.org/en)
-- [VS Code](https://code.visualstudio.com/)
-  - Make sure you are using the following extensions for proper syntax highlighting, intellisense, and formatting:
-    - [Svelte for VS Code](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode)
-    - [Prisma](https://marketplace.visualstudio.com/items?itemName=Prisma.prisma)
-    - [Prettier - Code formatter](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
-    - [Tailwind CSS IntelliSense](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss)
+## Features
 
-## Quickstart
+### Pages
 
-In the terminal:
+- Home Page (localhost:3000/): Displays the main dashboard where users can see the total count of users and workspaces
+- User List (localhost:3000/users): Displays paginated view of all users, and details of a selected user. Users are searchable by first and last name. Users can be sorted by first name, last name, and email.
+- Workspace List (localhost:3000/workspaces): Displays all workspaces and the number of users in each workspace.
+- User Details (localhost:3000/users/[id]): Displays larger more readable view of user info. Allows user to be edited and deleted
+- Workspace Details (localhost:3000/workspaces[id]): Displays paginated view of which users are in workspace. Allows users not in workspace to be added and workspace to be deleted
+- Create (localhost:3000/create): Create users and workspaces. Email will be auto generated from first and last name.
 
-```bash
-# Install dependencies
+### CRUD Operations
+
+Through the use of Prisma and the defined API routes, this application supports creating, reading, updating, and deleting (CRUD) users and workspaces. The specific implementations of these operations would be found in /src/routes/api, which interacts with the database using Prisma.
+
+## Setup Instructions
+
+1. **Install Dependencies** Navigate to the project directory and run:
+
+```
 npm install
-
-# Seed database
-npm run seed
-
-# Run dev server
-npm run dev
-
-# Lint for TypeScript and Svelte errors
-npm run check
 ```
 
-Additional assignment instructions are available on the root route once you navigate to the dev server.
+2. **Run Migrations** To set up the database schema, run:
 
-## Additional Resources
+```
+npm run migrate
+```
 
-- [SvelteKit](https://kit.svelte.dev/docs/introduction)
-- [Svelte 5](https://svelte-5-preview.vercel.app/docs/introduction)
-- [Prisma](https://www.prisma.io/docs/orm/prisma-client/queries/crud)
-- [Shadcn Components](https://shadcn-svelte.com/docs/components/accordion)
-- [Superforms](https://superforms.rocks/)
-- [Tailwind](https://tailwindcss.com/docs/utility-first)
-- [Zod](https://zod.dev/)
+3. **Seed the database**
+
+```
+npm run seed
+```
+
+4. **Start the Development Server**
+
+```
+npm run dev
+```
+
+This will start the application in development mode, go to the localhost site indicated in your terminal
+
+5. **Build for Production** When you're ready to build a production version of the app, run:
+
+```
+npm run build
+```

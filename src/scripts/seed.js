@@ -1,4 +1,15 @@
 import { PrismaClient } from '@prisma/client';
+
+function generateTag(text) {
+	const words = text.trim().split(/\s+/); // Split the text into words based on whitespace
+	// If there is only one word, return the first two letters of that word otherwise return the first letter of the first two word
+	if (words.length === 1) {
+		return words[0].substring(0, 2);
+	} else {
+		return words[0][0] + words[1][0];
+	}
+}
+
 const prisma = new PrismaClient();
 
 async function createWorkspaces() {
@@ -19,16 +30,6 @@ async function createWorkspaces() {
 	});
 
 	return [workspace1, workspace2];
-}
-
-function generateTag(text) {
-	const words = text.trim().split(/\s+/); // Split the text into words based on whitespace
-	// If there is only one word, return the first two letters of that word otherwise return the first letter of the first two word
-	if (words.length === 1) {
-		return words[0].substring(0, 2);
-	} else {
-		return words[0][0] + words[1][0];
-	}
 }
 
 async function createUsers() {
